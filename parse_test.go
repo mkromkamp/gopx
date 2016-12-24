@@ -38,7 +38,7 @@ func TestParseTracks(t *testing.T) {
 	}
 }
 
-func TestParseWaypooints(t *testing.T) {
+func TestParseWaypoints(t *testing.T) {
 	var g *Gpx
 	g, _ = ParseFile("sample/sample.gpx")
 
