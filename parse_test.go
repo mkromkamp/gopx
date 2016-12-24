@@ -23,9 +23,9 @@ func TestParse(t *testing.T) {
 		t.Errorf("Trackname expected: %s, actual: %s", trknameE, trknameA)
 	}
 
-	numPointsA := g.Tracks[0].Segments[0].Waypoints[0].Elevation
-	numPointsE := -2.3
-	if numPointsE != numPointsA {
-		t.Errorf("Number of tracks expected: %f, actual: %f", numPointsE, numPointsA)
+	wayEleA := g.Tracks[0].Segments[0].Waypoints[0].Elevation
+	wayEleE := -2.3
+	if wayEleE != wayEleA {
+		t.Errorf("Number of tracks expected: %f, actual: %f", wayEleE, wayEleA)
 	}
 }
