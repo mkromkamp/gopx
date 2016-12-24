@@ -11,17 +11,36 @@ func TestParse(t *testing.T) {
 		t.Error("Error parsing GPX file: ", err)
 	}
 
+	if g == nil {
+		t.Error("Expected new Gpx")
+	}
+}
+
+func TestParseMetadata(t *testing.T) {
+	var g *Gpx
+	g, _ = ParseFile("sample/sample.gpx")
+
 	timestampA := g.Metadata.Timestamp
 	timestampE := "2016-12-23T15:12:25Z"
 	if timestampA != timestampE {
 		t.Errorf("timestamp expected: %s, actual: %s", timestampE, timestampA)
 	}
+}
 
-	trknameA := g.Tracks[0].Name
-	trknameE := "Werk-woon"
-	if trknameA != trknameE {
-		t.Errorf("Trackname expected: %s, actual: %s", trknameE, trknameA)
+func TestParseTracks(t *testing.T) {
+	var g *Gpx
+	g, _ = ParseFile("sample/sample.gpx")
+
+	tracknameA := g.Tracks[0].Name
+	tracknameE := "Werk-woon"
+	if tracknameA != tracknameE {
+		t.Errorf("Trackname expected: %s, actual: %s", tracknameE, tracknameA)
 	}
+}
+
+func TestParseWaypooints(t *testing.T) {
+	var g *Gpx
+	g, _ = ParseFile("sample/sample.gpx")
 
 	wayEleA := g.Tracks[0].Segments[0].Waypoints[0].Elevation
 	wayEleE := -2.3
