@@ -138,6 +138,6 @@ func NewGpx() *Gpx {
 	gpx.XMLNsXsi = "http://www.w3.org/2001/XMLSchema-instance"
 	gpx.XMLSchemaLoc = "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd"
 	gpx.Version = "1.1"
-	gpx.Creator = "https://github.com/ptrv/go-gpx"
+	// gpx.Creator = "https://github.com/mkromkamp/gpx-go"
 	return gpx
 }
