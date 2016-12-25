@@ -20,18 +20,8 @@ func (gpx *Gpx) Split(parts int) ([]*Gpx, error) {
 
 	var newGpxs []*Gpx
 	for i := 0; i < parts; i++ {
-		newGpx := NewGpx()
-		track := Track{
-			Name: fmt.Sprintf("%s-%d", gpx.Tracks[0].Name, i),
-			Segments: []TrackSegment{
-				TrackSegment{
-					Waypoints: splittedWaypoints[1],
-				},
-			},
-		}
-
-		newGpx.Tracks = append(newGpx.Tracks, track)
-		newGpxs = append(newGpxs, newGpx)
+		name := fmt.Sprintf("%s-%d", gpx.Tracks[0].Name, i)
+		newGpxs = append(newGpxs, splittedWaypoints[i].createGpx(name))
 	}
 
 	return newGpxs, nil
@@ -62,4 +52,21 @@ func (waypoints Waypoints) split(parts int) []Waypoints {
 	}
 
 	return splittedWaypoints
+}
+
+// Create Gpx from Waypoints
+func (waypoints Waypoints) createGpx(name string) *Gpx {
+	newGpx := NewGpx()
+	track := Track{
+		Name: name,
+		Segments: []TrackSegment{
+			TrackSegment{
+				Waypoints: waypoints,
+			},
+		},
+	}
+
+	newGpx.Tracks = append(newGpx.Tracks, track)
+
+	return newGpx
 }
