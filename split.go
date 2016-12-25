@@ -42,11 +42,16 @@ func (gpx *Gpx) getWaypoints() Waypoints {
 // Split a slice of Waypoints into even parts
 func (waypoints Waypoints) split(parts int) []Waypoints {
 	var splittedWaypoints []Waypoints
-	partSize := len(waypoints) / parts
+	partSize := (len(waypoints) / parts) + 1
 
 	for i := 0; i < parts; i++ {
 		begin := i * partSize
 		end := (i + 1) * partSize
+
+		// Last part should only contain the remaining waypoints
+		if end > len(waypoints) {
+			end = len(waypoints)
+		}
 
 		splittedWaypoints = append(splittedWaypoints, waypoints[begin:end])
 	}
