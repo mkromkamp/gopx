@@ -13,6 +13,30 @@ func TestSplit(t *testing.T) {
 	}
 }
 
+func TestSplitPartsZeroOrLess(t *testing.T) {
+	gpx, _ := ParseFile("sample/sample.gpx")
+	parts := 0
+	expectedError := "Parts is less than or zero"
+
+	_, err := gpx.Split(parts)
+
+	if err.Error() != expectedError {
+		t.Errorf("Expected error: %s", expectedError)
+	}
+}
+
+func TestSplitNoWaypoints(t *testing.T) {
+	gpx, _ := ParseFile("sample/sample_empty_waypoints.gpx")
+	parts := 2
+	expectedError := "No waypoints found. Unable to split track"
+
+	_, err := gpx.Split(parts)
+
+	if err.Error() != expectedError {
+		t.Errorf("Expected error: %s", expectedError)
+	}
+}
+
 func TestSplitLastWaypoint(t *testing.T) {
 	gpx, _ := ParseFile("sample/sample.gpx")
 	parts := 13
@@ -42,29 +66,5 @@ func TestSplitFirstWaypoint(t *testing.T) {
 
 	if expectedWaypoint.Timestamp != actualWaypoint.Timestamp {
 		t.Errorf("Expected waypoint %v but got %v", expectedWaypoint, actualWaypoint)
-	}
-}
-
-func TestSplitPartsZeroOrLess(t *testing.T) {
-	gpx, _ := ParseFile("sample/sample.gpx")
-	parts := 0
-	expectedError := "Parts is less than or zero"
-
-	_, err := gpx.Split(parts)
-
-	if err.Error() != expectedError {
-		t.Errorf("Expected error: %s", expectedError)
-	}
-}
-
-func TestSplitNoWaypoints(t *testing.T) {
-	gpx, _ := ParseFile("sample/sample_empty_waypoints.gpx")
-	parts := 2
-	expectedError := "No waypoints found. Unable to split track"
-
-	_, err := gpx.Split(parts)
-
-	if err.Error() != expectedError {
-		t.Errorf("Expected error: %s", expectedError)
 	}
 }
