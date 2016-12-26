@@ -16,7 +16,7 @@ func TestNewGpxXMLNs(t *testing.T) {
 	xmlnsE := "http://www.topografix.com/GPX/1/1"
 	xmlnsA := gpx.XMLNs
 	if xmlnsE != xmlnsA {
-		t.Error("Expected %s XMLNs but got %s", xmlnsE, xmlnsA)
+		t.Errorf("Expected %s XMLNs but got %s", xmlnsE, xmlnsA)
 	}
 }
 
@@ -26,7 +26,7 @@ func TestNewGpxXMLNsXsi(t *testing.T) {
 	xmlnsXsiE := "http://www.w3.org/2001/XMLSchema-instance"
 	xmlnsXsiA := gpx.XMLNsXsi
 	if xmlnsXsiE != xmlnsXsiA {
-		t.Error("Expected %s XMLNsXsi but got %s", xmlnsXsiE, xmlnsXsiA)
+		t.Errorf("Expected %s XMLNsXsi but got %s", xmlnsXsiE, xmlnsXsiA)
 	}
 }
 
@@ -36,7 +36,7 @@ func TestNewGpxXMLSchemaLoc(t *testing.T) {
 	xmlSchemaLocE := "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd"
 	xmlSchemaLocA := gpx.XMLSchemaLoc
 	if xmlSchemaLocE != xmlSchemaLocA {
-		t.Error("Expected %s XMLSchemaLoc but got %s", xmlSchemaLocE, xmlSchemaLocA)
+		t.Errorf("Expected %s XMLSchemaLoc but got %s", xmlSchemaLocE, xmlSchemaLocA)
 	}
 }
 
@@ -46,7 +46,7 @@ func TestNewGpxVersion(t *testing.T) {
 	versionE := "1.1"
 	versionA := gpx.Version
 	if versionE != versionA {
-		t.Error("Expected %s Version but got %s", versionE, versionA)
+		t.Errorf("Expected %s Version but got %s", versionE, versionA)
 	}
 }
 
