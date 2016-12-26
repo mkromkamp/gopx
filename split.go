@@ -11,7 +11,7 @@ func (gpx *Gpx) Split(parts int) ([]*Gpx, error) {
 		return nil, errors.New("Parts is less than or zero")
 	}
 
-	waypoints := gpx.getWaypoints()
+	waypoints := gpx.GetWaypoints()
 	if len(waypoints) == 0 {
 		return nil, errors.New("No waypoints found. Unable to split track")
 	}
@@ -25,18 +25,6 @@ func (gpx *Gpx) Split(parts int) ([]*Gpx, error) {
 	}
 
 	return newGpxs, nil
-}
-
-// Get all the waypoints for a Gpx
-func (gpx *Gpx) getWaypoints() Waypoints {
-	var waypoints Waypoints
-	for _, track := range gpx.Tracks {
-		for _, segment := range track.Segments {
-			waypoints = append(waypoints, segment.Waypoints...)
-		}
-	}
-
-	return waypoints
 }
 
 // Split a slice of Waypoints into even parts
