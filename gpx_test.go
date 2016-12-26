@@ -49,3 +49,15 @@ func TestNewGpxVersion(t *testing.T) {
 		t.Error("Expected %s Version but got %s", versionE, versionA)
 	}
 }
+
+func TestGetWaypoints(t *testing.T) {
+	var gpx *Gpx
+	gpx, _ = ParseFile("sample/sample.gpx")
+	expectedWaypoints := gpx.Tracks[0].Segments[0].Waypoints
+
+	waypoints := gpx.GetWaypoints()
+
+	if len(waypoints) != len(expectedWaypoints) {
+		t.Errorf("Expected %d waypoints but got %d waypoints", len(expectedWaypoints), len(waypoints))
+	}
+}
