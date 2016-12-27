@@ -6,4 +6,6 @@ go:
 
 install: true
 
-script: go test
+script: 
+  - go vet
+  - go test -cover
