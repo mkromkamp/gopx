@@ -11,50 +11,50 @@ func (gpx *Gpx) Split(parts int) ([]*Gpx, error) {
 		return nil, errors.New("Parts is less than or zero")
 	}
 
-	waypoints := gpx.GetWaypoints()
-	if len(waypoints) == 0 {
-		return nil, errors.New("No waypoints found. Unable to split track")
+	points := gpx.GetPoints()
+	if len(points) == 0 {
+		return nil, errors.New("No points found. Unable to split track")
 	}
 
-	splittedWaypoints := waypoints.split(parts)
+	splittedPoints := points.split(parts)
 
 	var newGpxs []*Gpx
 	for i := 0; i < parts; i++ {
 		name := fmt.Sprintf("%s-%d", gpx.Tracks[0].Name, i)
-		newGpxs = append(newGpxs, splittedWaypoints[i].createGpx(name))
+		newGpxs = append(newGpxs, splittedPoints[i].createGpx(name))
 	}
 
 	return newGpxs, nil
 }
 
-// Split a slice of Waypoints into even parts
-func (waypoints Waypoints) split(parts int) []Waypoints {
-	var splittedWaypoints []Waypoints
-	partSize := (len(waypoints) / parts) + 1
+// Split a slice of Points into even parts
+func (points Points) split(parts int) []Points {
+	var splittedPoints []Points
+	partSize := (len(points) / parts) + 1
 
 	for i := 0; i < parts; i++ {
 		begin := i * partSize
 		end := (i + 1) * partSize
 
-		// Last part should only contain the remaining waypoints
-		if end > len(waypoints) {
-			end = len(waypoints)
+		// Last part should only contain the remaining points
+		if end > len(points) {
+			end = len(points)
 		}
 
-		splittedWaypoints = append(splittedWaypoints, waypoints[begin:end])
+		splittedPoints = append(splittedPoints, points[begin:end])
 	}
 
-	return splittedWaypoints
+	return splittedPoints
 }
 
-// Create Gpx from Waypoints
-func (waypoints Waypoints) createGpx(name string) *Gpx {
+// Create Gpx from Points
+func (points Points) createGpx(name string) *Gpx {
 	newGpx := NewGpx()
 	track := Track{
 		Name: name,
 		Segments: []TrackSegment{
 			TrackSegment{
-				Waypoints: waypoints,
+				Points: points,
 			},
 		},
 	}

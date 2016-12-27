@@ -11,22 +11,22 @@ type Gpx struct {
 	Version      string    `xml:"version,attr"`
 	Creator      string    `xml:"creator,attr"`
 	Metadata     *Metadata `xml:"metadata,omitempty"`
-	Waypoints    Waypoints `xml:"wpt,omitempty"`
+	Points       Points    `xml:"wpt,omitempty"`
 	Routes       []Route   `xml:"rte,omitempty"`
 	Tracks       []Track   `xml:"trk"`
 }
 
 // Route is a GPX Route
 type Route struct {
-	XMLName   xml.Name `xml:"rte"`
-	Name      string   `xml:"name,omitempty"`
-	Cmt       string   `xml:"cmt,omitempty"`
-	Desc      string   `xml:"desc,omitempty"`
-	Src       string   `xml:"src,omitempty"`
-	Links     []Link   `xml:"link"`
-	Number    int      `xml:"number,omitempty"`
-	Type      string   `xml:"type,omitempty"`
-	Waypoints `xml:"rtept"`
+	XMLName xml.Name `xml:"rte"`
+	Name    string   `xml:"name,omitempty"`
+	Cmt     string   `xml:"cmt,omitempty"`
+	Desc    string   `xml:"desc,omitempty"`
+	Src     string   `xml:"src,omitempty"`
+	Links   []Link   `xml:"link"`
+	Number  int      `xml:"number,omitempty"`
+	Type    string   `xml:"type,omitempty"`
+	Points  `xml:"rtept"`
 }
 
 // Metadata is a GPX metadata tag
@@ -57,15 +57,15 @@ type Track struct {
 
 // TrackSegment is a GPX track segment
 type TrackSegment struct {
-	XMLName   xml.Name `xml:"trkseg"`
-	Waypoints `xml:"trkpt"`
+	XMLName xml.Name `xml:"trkseg"`
+	Points  `xml:"trkpt"`
 }
 
-// Waypoints is a collection of waypoints whether in a track, a route, or standalone.
-type Waypoints []Waypoint
+// Points is a collection of points whether in a track, a route, or standalone.
+type Points []Point
 
-// Waypoint is a GPX waypoint
-type Waypoint struct {
+// Point is a GPX Point
+type Point struct {
 	Lat float64 `xml:"lat,attr"`
 	Lon float64 `xml:"lon,attr"`
 	// Position info

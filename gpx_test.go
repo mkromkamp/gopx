@@ -50,14 +50,14 @@ func TestNewGpxVersion(t *testing.T) {
 	}
 }
 
-func TestGetWaypoints(t *testing.T) {
+func TestGetPoints(t *testing.T) {
 	var gpx *Gpx
 	gpx, _ = ParseFile("sample/sample.gpx")
-	expectedWaypoints := gpx.Tracks[0].Segments[0].Waypoints
+	expectedPoints := gpx.Tracks[0].Segments[0].Points
 
-	waypoints := gpx.GetWaypoints()
+	points := gpx.GetPoints()
 
-	if len(waypoints) != len(expectedWaypoints) {
-		t.Errorf("Expected %d waypoints but got %d waypoints", len(expectedWaypoints), len(waypoints))
+	if len(points) != len(expectedPoints) {
+		t.Errorf("Expected %d points but got %d points", len(expectedPoints), len(points))
 	}
 }

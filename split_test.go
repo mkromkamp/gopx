@@ -25,10 +25,10 @@ func TestSplitPartsZeroOrLess(t *testing.T) {
 	}
 }
 
-func TestSplitNoWaypoints(t *testing.T) {
+func TestSplitNoPoints(t *testing.T) {
 	gpx, _ := ParseFile("sample/sample_empty_waypoints.gpx")
 	parts := 2
-	expectedError := "No waypoints found. Unable to split track"
+	expectedError := "No points found. Unable to split track"
 
 	_, err := gpx.Split(parts)
 
@@ -37,34 +37,34 @@ func TestSplitNoWaypoints(t *testing.T) {
 	}
 }
 
-func TestSplitLastWaypoint(t *testing.T) {
+func TestSplitLastPoint(t *testing.T) {
 	gpx, _ := ParseFile("sample/sample.gpx")
 	parts := 13
-	expectedWaypoint := gpx.Tracks[0].Segments[0].Waypoints[len(gpx.Tracks[0].Segments[0].Waypoints)-1]
+	expectedPoint := gpx.Tracks[0].Segments[0].Points[len(gpx.Tracks[0].Segments[0].Points)-1]
 
 	gpxs, _ := gpx.Split(parts)
 
 	// Last waypoint from last gpx
 	track := gpxs[len(gpxs)-1].Tracks[0]
 	segment := track.Segments[len(track.Segments)-1]
-	actualWaypoint := segment.Waypoints[len(segment.Waypoints)-1]
+	actualPoint := segment.Points[len(segment.Points)-1]
 
-	if expectedWaypoint.Timestamp != actualWaypoint.Timestamp {
-		t.Errorf("Expected waypoint %v but got %v", expectedWaypoint, actualWaypoint)
+	if expectedPoint.Timestamp != actualPoint.Timestamp {
+		t.Errorf("Expected point %v but got %v", expectedPoint, actualPoint)
 	}
 }
 
 func TestSplitFirstWaypoint(t *testing.T) {
 	gpx, _ := ParseFile("sample/sample.gpx")
 	parts := 13
-	expectedWaypoint := gpx.Tracks[0].Segments[0].Waypoints[0]
+	expectedPoint := gpx.Tracks[0].Segments[0].Points[0]
 
 	gpxs, _ := gpx.Split(parts)
 
 	// First waypoint from first gpx
-	actualWaypoint := gpxs[0].Tracks[0].Segments[0].Waypoints[0]
+	actualPoint := gpxs[0].Tracks[0].Segments[0].Points[0]
 
-	if expectedWaypoint.Timestamp != actualWaypoint.Timestamp {
-		t.Errorf("Expected waypoint %v but got %v", expectedWaypoint, actualWaypoint)
+	if expectedPoint.Timestamp != actualPoint.Timestamp {
+		t.Errorf("Expected point %v but got %v", expectedPoint, actualPoint)
 	}
 }

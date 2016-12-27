@@ -38,11 +38,11 @@ func TestParseTracks(t *testing.T) {
 	}
 }
 
-func TestParseWaypoints(t *testing.T) {
+func TestParsePoints(t *testing.T) {
 	var g *Gpx
 	g, _ = ParseFile("sample/sample.gpx")
 
-	wayEleA := g.Tracks[0].Segments[0].Waypoints[0].Elevation
+	wayEleA := g.Tracks[0].Segments[0].Points[0].Elevation
 	wayEleE := -2.3
 	if wayEleE != wayEleA {
 		t.Errorf("Number of tracks expected: %f, actual: %f", wayEleE, wayEleA)

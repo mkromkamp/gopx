@@ -11,14 +11,14 @@ func NewGpx() *Gpx {
 	return gpx
 }
 
-// GetWaypoints get all the waypoints from this Gpx
-func (gpx *Gpx) GetWaypoints() Waypoints {
-	var waypoints Waypoints
+// GetPoints get all the points from this Gpx
+func (gpx *Gpx) GetPoints() Points {
+	var points Points
 	for _, track := range gpx.Tracks {
 		for _, segment := range track.Segments {
-			waypoints = append(waypoints, segment.Waypoints...)
+			points = append(points, segment.Points...)
 		}
 	}
 
-	return waypoints
+	return points
 }
