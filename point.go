@@ -6,12 +6,13 @@ import "math"
 const EarthRadiasKm = 6371
 
 // Distance calculate the distance between to point in kilometers
+// http://www.movable-type.co.uk/scripts/latlong.html
 func (source *Point) Distance(dest Point) float64 {
-	dLat := (dest.Lat - source.Lat) * (math.Pi / 180.0)
-	dLon := (dest.Lon - source.Lon) * (math.Pi / 180.0)
+	dLat := radians(dest.Lat - source.Lat)
+	dLon := radians(dest.Lon - source.Lon)
 
-	lat1 := source.Lat * (math.Pi / 180.0)
-	lat2 := dest.Lat * (math.Pi / 180.0)
+	lat1 := radians(source.Lat)
+	lat2 := radians(dest.Lat)
 
 	a1 := math.Sin(dLat/2) * math.Sin(dLat/2)
 	a2 := math.Sin(dLon/2) * math.Sin(dLon/2) * math.Cos(lat1) * math.Cos(lat2)
@@ -21,4 +22,9 @@ func (source *Point) Distance(dest Point) float64 {
 	c := 2 * math.Atan2(math.Sqrt(a), math.Sqrt(1-a))
 
 	return EarthRadiasKm * c
+}
+
+// radians converts degrees to radians.
+func radians(deg float64) float64 {
+	return deg * (math.Pi / 180)
 }
