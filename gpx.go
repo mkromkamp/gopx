@@ -1,4 +1,4 @@
-package main
+package gopx
 
 // NewGpx creates and returns a new Gpx objects.
 func NewGpx() *Gpx {
