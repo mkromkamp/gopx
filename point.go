@@ -3,19 +3,19 @@ package gopx
 import "math"
 
 // EarthRadiasKm radius of the earth in kilometers
-const EarthRadiasKm = 6371
+const EarthRadiasKm = float64(6371)
 
 // Distance calculate the distance between to point in kilometers
 // http://www.movable-type.co.uk/scripts/latlong.html
 func (source *Point) Distance(dest Point) float64 {
-	dLat := radians(dest.Lat - source.Lat)
-	dLon := radians(dest.Lon - source.Lon)
+	deltaLat := radians(dest.Lat - source.Lat)
+	deltaLon := radians(dest.Lon - source.Lon)
 
-	lat1 := radians(source.Lat)
-	lat2 := radians(dest.Lat)
+	latSource := radians(source.Lat)
+	latDest := radians(dest.Lat)
 
-	a1 := math.Sin(dLat/2) * math.Sin(dLat/2)
-	a2 := math.Sin(dLon/2) * math.Sin(dLon/2) * math.Cos(lat1) * math.Cos(lat2)
+	a1 := math.Sin(deltaLat/2) * math.Sin(deltaLat/2)
+	a2 := math.Sin(deltaLon/2) * math.Sin(deltaLon/2) * math.Cos(latSource) * math.Cos(latDest)
 
 	a := a1 + a2
 
