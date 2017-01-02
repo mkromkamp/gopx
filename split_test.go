@@ -3,8 +3,14 @@ package gopx
 import "testing"
 
 func TestSplit(t *testing.T) {
-	gpx, _ := ParseFile("sample/sample.gpx")
-	parts := 13
+	var points Points
+	points = append(points, Point{Lat: 1.0, Lon: 1.0})
+	points = append(points, Point{Lat: 1.1, Lon: 1.0})
+	points = append(points, Point{Lat: 1.2, Lon: 1.0})
+	points = append(points, Point{Lat: 1.3, Lon: 1.0})
+
+	gpx := points.createGpx("gpx")
+	parts := 3
 
 	gpxs, _ := gpx.Split(parts)
 
@@ -14,7 +20,7 @@ func TestSplit(t *testing.T) {
 }
 
 func TestSplitPartsZeroOrLess(t *testing.T) {
-	gpx, _ := ParseFile("sample/sample.gpx")
+	gpx := NewGpx()
 	parts := 0
 	expectedError := "Parts is less than or zero"
 
@@ -26,7 +32,7 @@ func TestSplitPartsZeroOrLess(t *testing.T) {
 }
 
 func TestSplitNoPoints(t *testing.T) {
-	gpx, _ := ParseFile("sample/sample_empty_waypoints.gpx")
+	gpx := NewGpx()
 	parts := 2
 	expectedError := "No points found. Unable to split track"
 
@@ -38,9 +44,15 @@ func TestSplitNoPoints(t *testing.T) {
 }
 
 func TestSplitLastPoint(t *testing.T) {
-	gpx, _ := ParseFile("sample/sample.gpx")
-	parts := 13
-	expectedPoint := gpx.Tracks[0].Segments[0].Points[len(gpx.Tracks[0].Segments[0].Points)-1]
+	var points Points
+	points = append(points, Point{Lat: 1.0, Lon: 1.0})
+	points = append(points, Point{Lat: 1.1, Lon: 1.0})
+	points = append(points, Point{Lat: 1.2, Lon: 1.0})
+	points = append(points, Point{Lat: 1.3, Lon: 1.0})
+
+	gpx := points.createGpx("gpx")
+	parts := 2
+	expectedPoint := points[len(points)-1]
 
 	gpxs, _ := gpx.Split(parts)
 
@@ -55,9 +67,15 @@ func TestSplitLastPoint(t *testing.T) {
 }
 
 func TestSplitFirstWaypoint(t *testing.T) {
-	gpx, _ := ParseFile("sample/sample.gpx")
-	parts := 13
-	expectedPoint := gpx.Tracks[0].Segments[0].Points[0]
+	var points Points
+	points = append(points, Point{Lat: 1.0, Lon: 1.0})
+	points = append(points, Point{Lat: 1.1, Lon: 1.0})
+	points = append(points, Point{Lat: 1.2, Lon: 1.0})
+	points = append(points, Point{Lat: 1.3, Lon: 1.0})
+
+	gpx := points.createGpx("gpx")
+	parts := 2
+	expectedPoint := points[0]
 
 	gpxs, _ := gpx.Split(parts)
 
