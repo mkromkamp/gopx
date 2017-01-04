@@ -43,6 +43,58 @@ func TestSplitNoPoints(t *testing.T) {
 	}
 }
 
+func TestSplitEqualParts(t *testing.T) {
+	var points Points
+	points = append(points, Point{Lat: 1.0, Lon: 1.0})
+	points = append(points, Point{Lat: 1.1, Lon: 1.0})
+	points = append(points, Point{Lat: 1.2, Lon: 1.0})
+	points = append(points, Point{Lat: 1.3, Lon: 1.0})
+	points = append(points, Point{Lat: 1.4, Lon: 1.0})
+	points = append(points, Point{Lat: 1.5, Lon: 1.0})
+
+	gpx := points.createGpx("gpx")
+	parts := 3
+	gpxs, _ := gpx.Split(parts)
+
+	if len(gpxs) != parts {
+		t.Errorf("Expected %d gpxs but go: %d", parts, len(gpxs))
+	}
+
+	for _, g := range gpxs {
+		if len(g.GetPoints()) != 2 {
+			t.Errorf("Expected 2 points but got: %d", len(g.GetPoints()))
+		}
+	}
+}
+
+func TestSplitUnEqualParts(t *testing.T) {
+	var points Points
+	points = append(points, Point{Lat: 1.0, Lon: 1.0})
+	points = append(points, Point{Lat: 1.1, Lon: 1.0})
+	points = append(points, Point{Lat: 1.2, Lon: 1.0})
+	points = append(points, Point{Lat: 1.3, Lon: 1.0})
+	points = append(points, Point{Lat: 1.4, Lon: 1.0})
+	points = append(points, Point{Lat: 1.5, Lon: 1.0})
+	points = append(points, Point{Lat: 1.6, Lon: 1.0})
+
+	gpx := points.createGpx("gpx")
+	parts := 3
+	gpxs, _ := gpx.Split(parts)
+
+	if len(gpxs) != parts {
+		t.Errorf("Expected %d gpxs but got: %d", parts, len(gpxs))
+	}
+
+	var pointsActual Points
+	for _, g := range gpxs {
+		pointsActual = append(pointsActual, g.GetPoints()...)
+	}
+
+	if len(points) != len(pointsActual) {
+		t.Errorf("Expected %d points but got: %d", len(points), len(pointsActual))
+	}
+}
+
 func TestSplitLastPoint(t *testing.T) {
 	var points Points
 	points = append(points, Point{Lat: 1.0, Lon: 1.0})

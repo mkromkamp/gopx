@@ -30,14 +30,14 @@ func (gpx *Gpx) Split(parts int) ([]*Gpx, error) {
 // Split a slice of Points into even parts
 func (points Points) split(parts int) []Points {
 	var splittedPoints []Points
-	partSize := (len(points) / parts) + 1
+	partSize := (len(points) / parts)
 
 	for i := 0; i < parts; i++ {
 		begin := i * partSize
 		end := (i + 1) * partSize
 
 		// Last part should only contain the remaining points
-		if end > len(points) {
+		if i == partSize {
 			end = len(points)
 		}
 
