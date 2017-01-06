@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestMerge(t *testing.T) {
+func TestMergeByDistance(t *testing.T) {
 	var points Points
 	startPoint := Point{Lat: 1.0, Lon: 1.0}
 	points = append(points, Point{Lat: 1.0, Lon: 1.0})
@@ -30,7 +30,7 @@ func TestMerge(t *testing.T) {
 	}
 }
 
-func TestMergeNoGpxs(t *testing.T) {
+func TestMergeByDistanceNoGpxs(t *testing.T) {
 	var gpxs []*Gpx
 	startPoint := Point{Lat: 1.0, Lon: 1.0}
 
@@ -41,7 +41,7 @@ func TestMergeNoGpxs(t *testing.T) {
 	}
 }
 
-func TestMergeNoPoints(t *testing.T) {
+func TestMergeByDistanceNoPoints(t *testing.T) {
 	var gpxs []*Gpx
 	startPoint := Point{Lat: 1.0, Lon: 1.0}
 	gpxs = append(gpxs, NewGpx())
