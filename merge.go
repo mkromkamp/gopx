@@ -1,20 +1,43 @@
 package gopx
 
-import "errors"
+import (
+	"errors"
+	"sort"
+	"time"
+)
+
+func (p Points) Len() int {
+	return len(p)
+}
+
+func (p Points) Less(i, j int) bool {
+	t1, _ := time.Parse("", p[i].Timestamp)
+	t2, _ := time.Parse("", p[j].Timestamp)
+
+	return t1.Before(t2)
+}
+
+func (p Points) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+}
+
+// MergeByTimeStamp merges gpxs based on there timetamp
+func MergeByTimeStamp(gpxs []*Gpx) (*Gpx, error) {
+	points, err := getPoints(gpxs)
+	if err != nil {
+		return nil, err
+	}
+
+	sort.Sort(points)
+
+	return points.createGpx("merged"), nil
+}
 
 // MergeByDistance merges gpxs based on distance
 func MergeByDistance(gpxs []*Gpx, start Point) (*Gpx, error) {
-	if len(gpxs) == 0 {
-		return nil, errors.New("No gpxs to merge")
-	}
-
-	var points Points
-	for _, gpx := range gpxs {
-		points = append(points, gpx.GetPoints()...)
-	}
-
-	if len(points) == 0 {
-		return nil, errors.New("No Points found to merge")
+	points, err := getPoints(gpxs)
+	if err != nil {
+		return nil, err
 	}
 
 	currentPoint := start
@@ -40,4 +63,20 @@ func MergeByDistance(gpxs []*Gpx, start Point) (*Gpx, error) {
 	}
 
 	return sorted.createGpx("merged"), nil
+}
+
+// getPoints get points from gpxs.
+func getPoints(gpxs []*Gpx) (Points, error) {
+	if len(gpxs) == 0 {
+		return nil, errors.New("No gpxs to merge")
+	}
+
+	var points Points
+	for _, gpx := range gpxs {
+		points = append(points, gpx.GetPoints()...)
+	}
+
+	if len(points) == 0 {
+		return nil, errors.New("No Points found to merge")
+	}
 }
