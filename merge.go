@@ -79,4 +79,6 @@ func getPoints(gpxs []*Gpx) (Points, error) {
 	if len(points) == 0 {
 		return nil, errors.New("No Points found to merge")
 	}
+
+	return points, nil
 }
