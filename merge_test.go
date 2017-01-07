@@ -53,3 +53,49 @@ func TestMergeByDistanceNoPoints(t *testing.T) {
 		t.Errorf("Expected %s but got %s", "No Points found to merge", err.Error())
 	}
 }
+
+func TestMergeByTimeStamp(t *testing.T) {
+	var points Points
+	points = append(points, Point{Timestamp: "2017-01-01T12:00:00Z"})
+	points = append(points, Point{Timestamp: "2017-01-01T12:00:01Z"})
+	points = append(points, Point{Timestamp: "2017-01-01T12:01:00Z"})
+	points = append(points, Point{Timestamp: "2017-01-01T13:00:00Z"})
+
+	gpxs, _ := points.createGpx("gpx").Split(2)
+
+	merged, _ := MergeByTimeStamp(gpxs)
+	pointsActual := merged.GetPoints()
+
+	if !reflect.DeepEqual(points, pointsActual) {
+		t.Error("Points do not match")
+
+		// What is not matching
+		for i, pointExpected := range points {
+			if pointsActual[i].Timestamp != pointExpected.Timestamp {
+				t.Errorf("Expected: %v got: %v", pointExpected, pointsActual[i])
+			}
+		}
+	}
+}
+
+func TestMergeByTimeStampNoGpxs(t *testing.T) {
+	var gpxs []*Gpx
+
+	_, err := MergeByTimeStamp(gpxs)
+
+	if err.Error() != "No gpxs to merge" {
+		t.Errorf("Expected %s but got %s", "No gpxs to merge", err.Error())
+	}
+}
+
+func TestMergeByTimeStampNoPoints(t *testing.T) {
+	var gpxs []*Gpx
+	gpxs = append(gpxs, NewGpx())
+	gpxs = append(gpxs, NewGpx())
+
+	_, err := MergeByTimeStamp(gpxs)
+
+	if err.Error() != "No Points found to merge" {
+		t.Errorf("Expected %s but got %s", "No Points found to merge", err.Error())
+	}
+}
