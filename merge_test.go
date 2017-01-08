@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestMergeByDistance(t *testing.T) {
+func TestMergeByDistanceOrdered(t *testing.T) {
 	var points Points
 	startPoint := Point{Lat: 1.0, Lon: 1.0}
 	points = append(points, Point{Lat: 1.0, Lon: 1.0})
@@ -18,14 +18,37 @@ func TestMergeByDistance(t *testing.T) {
 	merged, _ := MergeByDistance(gpxs, startPoint)
 	pointsActual := merged.GetPoints()
 
-	if !reflect.DeepEqual(points, pointsActual) {
-		t.Error("Points do not match")
+	// What is not matching
+	for i, pointExpected := range points {
+		if pointsActual[i].Lat != pointExpected.Lat && pointsActual[i].Lon != pointExpected.Lon {
+			t.Errorf("Expected: %v got: %v", pointExpected, pointsActual[i])
+		}
+	}
+}
 
-		// What is not matching
-		for i, pointExpected := range points {
-			if pointsActual[i].Timestamp != pointExpected.Timestamp {
-				t.Errorf("Expected: %v got: %v", pointExpected, pointsActual[i])
-			}
+func TestMergeByDistanceUnordered(t *testing.T) {
+	var points Points
+	startPoint := Point{Lat: 1.0, Lon: 1.0}
+	points = append(points, Point{Lat: 1.3, Lon: 1.0})
+	points = append(points, Point{Lat: 1.2, Lon: 1.0})
+	points = append(points, Point{Lat: 1.1, Lon: 1.0})
+	points = append(points, Point{Lat: 1.0, Lon: 1.0})
+
+	var pointsOrdered Points
+	pointsOrdered = append(pointsOrdered, Point{Lat: 1.0, Lon: 1.0})
+	pointsOrdered = append(pointsOrdered, Point{Lat: 1.1, Lon: 1.0})
+	pointsOrdered = append(pointsOrdered, Point{Lat: 1.2, Lon: 1.0})
+	pointsOrdered = append(pointsOrdered, Point{Lat: 1.3, Lon: 1.0})
+
+	gpxs, _ := points.createGpx("gpx").Split(2)
+
+	merged, _ := MergeByDistance(gpxs, startPoint)
+	pointsActual := merged.GetPoints()
+
+	// What is not matching
+	for i, pointExpected := range pointsOrdered {
+		if pointsActual[i].Lat != pointExpected.Lat && pointsActual[i].Lon != pointExpected.Lon {
+			t.Errorf("Expected: %v got: %v", pointExpected, pointsActual[i])
 		}
 	}
 }
