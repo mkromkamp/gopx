@@ -48,3 +48,13 @@ func TestParsePoints(t *testing.T) {
 		t.Errorf("Number of tracks expected: %f, actual: %f", wayEleE, wayEleA)
 	}
 }
+
+func TestParseInvalidFile(t *testing.T) {
+	var errActual error
+	_, errActual = ParseFile("sample/does_not_exists.gpx")
+
+	errExpected := "open sample/does_not_exists.gpx: no such file or directory"
+	if errActual.Error() != errExpected {
+		t.Errorf("Expected error: %s but got: %s", errExpected, errActual)
+	}
+}
