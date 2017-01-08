@@ -58,3 +58,13 @@ func TestParseInvalidFile(t *testing.T) {
 		t.Errorf("Expected error: %s but got: %s", errExpected, errActual)
 	}
 }
+
+func TestParseInvalidGpx(t *testing.T) {
+	var errActual error
+	_, errActual = ParseFile("sample/sample_broken.gpx")
+
+	errExpected := "XML syntax error on line 14: element <trkseg> closed by </gpx>"
+	if errActual.Error() != errExpected {
+		t.Errorf("Expected error: %s but got: %s", errExpected, errActual)
+	}
+}
