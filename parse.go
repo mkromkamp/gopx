@@ -2,7 +2,6 @@ package gopx
 
 import (
 	"encoding/xml"
-	"fmt"
 	"io"
 	"os"
 )
@@ -13,7 +12,7 @@ func Parse(r io.Reader) (*Gpx, error) {
 	decoder := xml.NewDecoder(r)
 	err := decoder.Decode(gpx)
 	if err != nil {
-		return nil, fmt.Errorf("couldn't parse gpx data: %v", err)
+		return nil, err
 	}
 	return gpx, nil
 }
