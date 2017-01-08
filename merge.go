@@ -6,21 +6,6 @@ import (
 	"time"
 )
 
-func (p Points) Len() int {
-	return len(p)
-}
-
-func (p Points) Less(i, j int) bool {
-	t1, _ := time.Parse(time.RFC3339Nano, p[i].Timestamp)
-	t2, _ := time.Parse(time.RFC3339Nano, p[j].Timestamp)
-
-	return t1.Before(t2)
-}
-
-func (p Points) Swap(i, j int) {
-	p[i], p[j] = p[j], p[i]
-}
-
 // MergeByTimestamp merges gpxs based on there timetamp
 func MergeByTimestamp(gpxs []*Gpx) (*Gpx, error) {
 	points, err := getPoints(gpxs)
@@ -35,7 +20,7 @@ func MergeByTimestamp(gpxs []*Gpx) (*Gpx, error) {
 		}
 	}
 
-	sort.Sort(points)
+	sort.Sort(sortByTimestamp(points))
 
 	return points.createGpx("merged"), nil
 }
