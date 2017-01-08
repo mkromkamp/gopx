@@ -11,8 +11,8 @@ func (p Points) Len() int {
 }
 
 func (p Points) Less(i, j int) bool {
-	t1, _ := time.Parse("", p[i].Timestamp)
-	t2, _ := time.Parse("", p[j].Timestamp)
+	t1, _ := time.Parse(time.RFC3339Nano, p[i].Timestamp)
+	t2, _ := time.Parse(time.RFC3339Nano, p[j].Timestamp)
 
 	return t1.Before(t2)
 }
@@ -21,11 +21,18 @@ func (p Points) Swap(i, j int) {
 	p[i], p[j] = p[j], p[i]
 }
 
-// MergeByTimeStamp merges gpxs based on there timetamp
-func MergeByTimeStamp(gpxs []*Gpx) (*Gpx, error) {
+// MergeByTimestamp merges gpxs based on there timetamp
+func MergeByTimestamp(gpxs []*Gpx) (*Gpx, error) {
 	points, err := getPoints(gpxs)
 	if err != nil {
 		return nil, err
+	}
+
+	for _, point := range points {
+		_, err := time.Parse(time.RFC3339Nano, point.Timestamp)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	sort.Sort(points)
