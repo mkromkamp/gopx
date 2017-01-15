@@ -18,3 +18,23 @@ func (p sortByTimestamp) Less(i, j int) bool {
 func (p sortByTimestamp) Swap(i, j int) {
 	p[i], p[j] = p[j], p[i]
 }
+
+// Create Gpx from Points
+func (points Points) createGpx(name string) *Gpx {
+	newGpx := NewGpx()
+	track := Track{
+		Segments: []TrackSegment{
+			TrackSegment{
+				Points: points,
+			},
+		},
+	}
+	metaData := Metadata{
+		Name: name,
+	}
+
+	newGpx.Tracks = append(newGpx.Tracks, track)
+	newGpx.Metadata = &metaData
+
+	return newGpx
+}
