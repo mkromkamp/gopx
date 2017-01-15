@@ -22,3 +22,32 @@ func (gpx *Gpx) GetPoints() Points {
 
 	return points
 }
+
+// Create Gpx from Points
+func (points Points) createGpx(name string) *Gpx {
+	newGpx := NewGpx()
+	track := Track{
+		Segments: []TrackSegment{
+			TrackSegment{
+				Points: points,
+			},
+		},
+	}
+	metaData := Metadata{
+		Name: name,
+	}
+
+	newGpx.Tracks = append(newGpx.Tracks, track)
+	newGpx.Metadata = &metaData
+
+	return newGpx
+}
+
+// GetName of the gpx
+func (gpx *Gpx) GetName() string {
+	if gpx.Metadata != nil {
+		return gpx.Metadata.Name
+	}
+
+	return ""
+}

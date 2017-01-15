@@ -61,3 +61,23 @@ func TestGetPoints(t *testing.T) {
 		t.Errorf("Expected %d points but got %d points", len(expectedPoints), len(points))
 	}
 }
+
+func TestGetNameEmpty(t *testing.T) {
+	gpx := NewGpx()
+
+	if gpx.GetName() != "" {
+		t.Errorf("Expected empty gpx name but got: %s", gpx.GetName())
+	}
+}
+
+func TestGetName(t *testing.T) {
+	gpx := NewGpx()
+	nameExpected := "TestName"
+	gpx.Metadata = &Metadata{
+		Name: nameExpected,
+	}
+
+	if gpx.GetName() != nameExpected {
+		t.Errorf("Expected gpx name: %s but got: %s", nameExpected, gpx.GetName())
+	}
+}

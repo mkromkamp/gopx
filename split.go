@@ -28,7 +28,7 @@ func (gpx *Gpx) SplitAfterKM(km float64) ([]*Gpx, error) {
 		prev = point
 
 		if gpxDist >= km {
-			name := fmt.Sprintf("%s-%d", gpx.getName(), i)
+			name := fmt.Sprintf("%s-%d", gpx.GetName(), i)
 			newGpxs = append(newGpxs, gpxPoints.createGpx(name))
 
 			gpxPoints = gpxPoints[0:]
@@ -57,7 +57,7 @@ func (gpx *Gpx) Split(parts int) ([]*Gpx, error) {
 
 	var newGpxs []*Gpx
 	for i := 0; i < parts; i++ {
-		name := fmt.Sprintf("%s-%d", gpx.getName(), i)
+		name := fmt.Sprintf("%s-%d", gpx.GetName(), i)
 		newGpxs = append(newGpxs, splittedPoints[i].createGpx(name))
 	}
 
@@ -82,33 +82,4 @@ func (points Points) split(parts int) []Points {
 	}
 
 	return splittedPoints
-}
-
-// Create Gpx from Points
-func (points Points) createGpx(name string) *Gpx {
-	newGpx := NewGpx()
-	track := Track{
-		Segments: []TrackSegment{
-			TrackSegment{
-				Points: points,
-			},
-		},
-	}
-	metaData := Metadata{
-		Name: name,
-	}
-
-	newGpx.Tracks = append(newGpx.Tracks, track)
-	newGpx.Metadata = &metaData
-
-	return newGpx
-}
-
-// getName of the gpx
-func (gpx *Gpx) getName() string {
-	if gpx.Metadata != nil {
-		return gpx.Metadata.Name
-	}
-
-	return ""
 }
