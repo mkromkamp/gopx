@@ -22,13 +22,13 @@ func (gpx *Gpx) SplitAfterKM(km float64) ([]*Gpx, error) {
 	prev := points[0]
 	gpxDist := 0.0
 	gpxPoints = append(gpxPoints, prev)
-	for i, point := range points[1:] {
+	for _, point := range points[1:] {
 		gpxPoints = append(gpxPoints, point)
 		gpxDist = gpxDist + prev.Distance(point)
 		prev = point
 
 		if gpxDist >= km {
-			name := fmt.Sprintf("%s-%d", gpx.GetName(), i)
+			name := fmt.Sprintf("%s-%d", gpx.GetName(), len(newGpxs)+1)
 			newGpxs = append(newGpxs, gpxPoints.createGpx(name))
 
 			gpxPoints = nil
@@ -37,7 +37,7 @@ func (gpx *Gpx) SplitAfterKM(km float64) ([]*Gpx, error) {
 	}
 
 	// Remaining points
-	newGpxs = append(newGpxs, gpxPoints.createGpx(""))
+	newGpxs = append(newGpxs, gpxPoints.createGpx(fmt.Sprintf("%s-%d", gpx.GetName(), len(newGpxs)+1)))
 
 	return newGpxs, nil
 }
