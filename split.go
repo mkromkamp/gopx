@@ -31,7 +31,7 @@ func (gpx *Gpx) SplitAfterKM(km float64) ([]*Gpx, error) {
 			name := fmt.Sprintf("%s-%d", gpx.GetName(), len(newGpxs)+1)
 			newGpxs = append(newGpxs, gpxPoints.createGpx(name))
 
-			gpxPoints = nil
+			gpxPoints = gpxPoints[len(gpxPoints)-1:]
 			gpxDist = 0.0
 		}
 	}
